@@ -89,7 +89,7 @@ jobs:
 
           $templatePath = "index.html"
           $html = Get-Content -LiteralPath $templatePath -Raw
-          $html = [regex]::Replace($html, '(<span id="updatedAt">).*?(</span>)', '$1' + $generatedAt + '$2')
+          $html = [regex]::Replace($html, '<span id="updatedAt">[^<]*</span>', '<span id="updatedAt">' + $generatedAt + '</span>')
           $html = [regex]::Replace($html, 'const ads=.*?;\s*const prices=', 'const ads=' + $dataJson + ';' + [Environment]::NewLine + 'const prices=', 'Singleline')
           if ($html -match 'const ads=\{') { throw "Dashboard data replacement failed; refusing to write index.html." }
           Set-Content -LiteralPath $templatePath -Value $html -Encoding UTF8
@@ -106,5 +106,7 @@ jobs:
             git commit -m "Update dashboard data"
             git push
           }
+
+
 
 

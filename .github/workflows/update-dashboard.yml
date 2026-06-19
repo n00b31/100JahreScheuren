@@ -33,7 +33,9 @@ jobs:
           $initial = Invoke-WebRequest -Uri $shareUrl -SessionVariable session -UseBasicParsing
           function Get-FieldValue([string]$name) {
             $pattern = 'name="' + [regex]::Escape($name) + '"[^>]*value="([^"]*)"'
-            return [System.Net.WebUtility]::HtmlDecode(([regex]::Match($initial.Content, $pattern)).Groups[1].Value)
+            $match = [regex]::Match($initial.Content, $pattern)
+            if (-not $match.Success) { throw "Required SharePoint form field '$name' was not found." }
+            return [System.Net.WebUtility]::HtmlDecode($match.Groups[1].Value)
           }
 
           $body = @{
@@ -48,9 +50,20 @@ jobs:
           }
 
           Invoke-WebRequest -Uri $postUrl -Method Post -Body $body -WebSession $session -UseBasicParsing | Out-Null
-          $response = Invoke-RestMethod -Uri $apiUrl -WebSession $session -Headers @{ Accept = "application/json;odata=nometadata" }
+          $apiResponse = Invoke-WebRequest -Uri $apiUrl -WebSession $session -UseBasicParsing -Headers @{ Accept = "application/json;odata=nometadata" }
+          if ($apiResponse.Content -notmatch '^\s*\{') {
+            throw "List API did not return JSON. Response starts with: $($apiResponse.Content.Substring(0, [Math]::Min(120, $apiResponse.Content.Length)))"
+          }
+          $response = $apiResponse.Content | ConvertFrom-Json
+          $values = @($response.value)
+          if ($null -eq $response.value -or $values.Count -lt 10) {
+            throw "List API returned $($values.Count) item(s); refusing to update dashboard."
+          }
 
-          $items = @($response.value | ForEach-Object {
+          $items = @($values | ForEach-Object {
+            if ($null -eq $_.ID -or [string]::IsNullOrWhiteSpace([string]$_.Title)) {
+              throw "Invalid list item encountered; refusing to update dashboard."
+            }
             [pscustomobject]@{
               id = $_.ID
               firma = ([string]$_.Title).Trim()
@@ -64,15 +77,15 @@ jobs:
             }
           })
 
-          if ($items.Count -eq 0) { throw "No list items returned." }
-
-          $dataJson = ($items | ConvertTo-Json -Depth 8 -Compress) -replace "</", "<\/"
+          $dataJson = (ConvertTo-Json -InputObject @($items) -Depth 8 -Compress) -replace "</", "<\/"
+          if ($dataJson -notmatch '^\[') { throw "Serialized dashboard data is not a JSON array; refusing to update dashboard." }
           $generatedAt = (Get-Date).ToString("dd.MM.yyyy HH:mm")
 
           $templatePath = "index.html"
           $html = Get-Content -LiteralPath $templatePath -Raw
           $html = $html -replace 'Stand: [^.]+\. Preise: Drittel Seite 75 €, halbe Seite 125 €, ganze Seite 200 €(\. Umsatzneutrale Anzeigen zählen mit 0 €)?\.', "Stand: $generatedAt. Preise: Drittel Seite 75 €, halbe Seite 125 €, ganze Seite 200 €. Umsatzneutrale Anzeigen zählen mit 0 €."
           $html = [regex]::Replace($html, 'const ads=.*?;\s*const prices=', 'const ads=' + $dataJson + ';' + [Environment]::NewLine + 'const prices=', 'Singleline')
+          if ($html -match 'const ads=\{') { throw "Dashboard data replacement failed; refusing to write index.html." }
           Set-Content -LiteralPath $templatePath -Value $html -Encoding UTF8
 
       - name: Commit updated dashboard

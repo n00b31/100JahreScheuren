@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anzeigen-Dashboard Jubiläumsheft</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+*{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif}.wrap{max-width:1320px;margin:0 auto;padding:32px}header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:24px}.eyebrow{color:var(--cp-accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px}h1{font-size:34px;line-height:1.1;margin:6px 0 8px}.sub{color:var(--cp-text-muted);margin:0}.pill{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;padding:8px 12px;background:var(--cp-surface);color:var(--cp-text-muted);font-size:13px}.grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border);padding:18px}.metric .label{color:var(--cp-text-muted);font-size:13px}.metric .value{font-size:32px;font-weight:800;margin:8px 0}.metric .hint{color:var(--cp-text-soft);font-size:13px}.two{grid-template-columns:1.15fr .85fr;margin-bottom:16px}.three{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:16px}h2{font-size:18px;margin:0 0 14px}.bar-row{display:grid;grid-template-columns:140px 1fr 82px;align-items:center;gap:12px;margin:12px 0}.bar{height:12px;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:999px;overflow:hidden}.fill{height:100%;background:var(--cp-accent)}.fill.success{background:var(--cp-success)}.fill.warn{background:var(--cp-warning)}.money{font-variant-numeric:tabular-nums}.split{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--cp-border);padding-top:12px;margin-top:12px;color:var(--cp-text-muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid var(--cp-border);padding:10px 8px;vertical-align:top}th{color:var(--cp-text-muted);font-weight:700;background:var(--cp-surface-soft)}.badge{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:700;border:1px solid var(--cp-border)}.ok{color:var(--cp-success)}.bad{color:var(--cp-danger)}.warn{color:var(--cp-warning)}.muted{color:var(--cp-text-muted)}.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:12px}.search{width:100%;padding:10px 12px;border:1px solid var(--cp-border);border-radius:0.625rem;background:var(--cp-surface);color:var(--cp-text);font:inherit}.select{padding:10px 12px;border:1px solid var(--cp-border);border-radius:0.625rem;background:var(--cp-surface);color:var(--cp-text);font:inherit}.small{font-size:12px}.footer{margin-top:16px;color:var(--cp-text-muted);font-size:12px}.pin-gate{min-height:100vh;display:grid;place-items:center;padding:24px}.pin-card{width:min(420px,100%);background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border);padding:24px}.pin-form{display:grid;grid-template-columns:1fr auto;gap:12px;margin-top:18px}.pin-button{border:1px solid var(--cp-accent);border-radius:0.625rem;background:var(--cp-accent);color:var(--cp-accent-fg);font:inherit;font-weight:700;padding:10px 14px;cursor:pointer}.pin-button:hover{background:var(--cp-accent-hover)}@media(max-width:900px){.kpis,.two,.three{grid-template-columns:1fr}header{display:block}.wrap{padding:20px}.bar-row{grid-template-columns:110px 1fr 70px}}
+</style>
+</head>
+<body>
+<div id="pinGate" class="pin-gate"><div class="pin-card"><div class="eyebrow">Geschützt</div><h1>Anzeigen-Dashboard</h1><p class="sub">Bitte PIN eingeben.</p><form id="pinForm" class="pin-form"><input id="pinInput" class="search" inputmode="numeric" type="password" autocomplete="off" placeholder="PIN"><button class="pin-button" type="submit">Öffnen</button></form><p id="pinError" class="bad small" hidden>Falsche PIN.</p></div></div>
+<div class="wrap" id="dashboardApp" hidden>
+<header><div><div class="eyebrow">100 Jahre LG Scheuren</div><h1>Anzeigen-Dashboard Jubiläumsheft</h1><p class="sub">Stand: 19.06.2026 18:05. Preise: Drittel Seite 75 €, halbe Seite 125 €, ganze Seite 200 €.</p></div><div class="pill">Quelle: Microsoft Lists</div></header>
+<section class="grid kpis" id="kpis"></section>
+<section class="grid two"><div class="card"><h2>Umsatzstatus</h2><div id="revenueBars"></div><div class="split"><span>Gesamtpotenzial</span><strong class="money" id="potential"></strong></div></div><div class="card"><h2>Anzeigen nach Größe</h2><div id="sizeBars"></div></div></section>
+<section class="grid three"><div class="card"><h2>Zahlung</h2><div id="paymentBars"></div></div><div class="card"><h2>Anträge laut Liste</h2><div id="requestBars"></div></div><div class="card"><h2>Grafik / Daten laut Liste</h2><div id="assetBars"></div></div></section>
+<section class="card"><h2>Offene Punkte</h2><div class="toolbar"><input id="search" class="search" placeholder="Firma suchen…"><select id="filter" class="select"><option value="open">Nur offen</option><option value="all">Alle</option><option value="paidOpen">Zahlung offen</option><option value="invoiceMissing">Rechnung fehlt</option><option value="requestMissing">Antrag fehlt</option><option value="assetMissing">Grafik/Daten fehlen</option></select></div><div style="overflow:auto"><table><thead><tr><th>Firma</th><th>Größe</th><th>Bezahlt</th><th>Rechnung</th><th>Antrag</th><th>Grafik/Daten</th><th>Kommentar</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<p class="footer">Hinweis: „Antrag“ und „Grafik/Daten“ zeigen die Werte aus den Listenspalten. Zahlungsstatus basiert auf „Bezhalt“. Einzelbeträge pro Firma werden in dieser öffentlichen Ansicht nicht angezeigt.</p>
+</div>
+<script>
+const PIN = '112';
+const gate = document.getElementById('pinGate');
+const app = document.getElementById('dashboardApp');
+const form = document.getElementById('pinForm');
+const input = document.getElementById('pinInput');
+const error = document.getElementById('pinError');
+function unlock(){ gate.hidden = true; app.hidden = false; try { sessionStorage.setItem('dashboard-pin-ok','1'); } catch(e){} }
+try { if (sessionStorage.getItem('dashboard-pin-ok') === '1') unlock(); } catch(e){}
+form.addEventListener('submit', event => { event.preventDefault(); if (input.value === PIN) unlock(); else { error.hidden = false; input.select(); } });
+const ads=[{"id":7,"firma":"Früh Kölsch","antrag":"Nein","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":8,"firma":"PSB Schaltanlagen","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":9,"firma":"BAK Agrar GmbH","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":10,"firma":"Lieth Beschriftungen","antrag":"Nein","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":11,"firma":"Metallbau Weber","antrag":"Nein","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":12,"firma":"Mutige Kinder","antrag":"Nein","grafik":"Ja","groesse":"Ganze Seite","bezahlt":false,"rechnung":false,"kommentar":""},{"id":14,"firma":"Provinzial Hackländer","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":15,"firma":"Kaltenbach","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":16,"firma":"Hinz GmbH","antrag":"Ja","grafik":"Nein","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":17,"firma":"Haar Treff","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":18,"firma":"Fleischerei Molitor","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":"Nebst unserem Logo würden wir uns freuen, könnten Sie folgenden Satz zu der Anzeige schreiben: „Viel Spaß und Freud - op de nächste 100 Johr“."},{"id":19,"firma":"Gartenbau Schneider","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":20,"firma":"Montag und Rappenhöhner","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":21,"firma":"Rewe Koll","antrag":"Ja","grafik":"Nein","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":22,"firma":"VR Bank","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":false,"kommentar":"Wenn möglich bitte die Umschlagseite 4 (Rückseite)"},{"id":23,"firma":"Grubenblitz","antrag":"Ja","grafik":"Nein","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":"Bei Fragen um das Design/Logo etc. wenden Sie sich bitte wie folgt:\n>\nSascha Achternbosch\nsascha.achternbosch@grubenblitz.de\nMobil-Nr: 01729525397"},{"id":24,"firma":"Gartenbau Eichel","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":25,"firma":"Nordhaus","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":26,"firma":"BnV","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":27,"firma":"Paas","antrag":"Nein","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":28,"firma":"Bosbach Bauunternehmung","antrag":"Nein","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":29,"firma":"Sascha Schneiders","antrag":"Nein","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":30,"firma":"Dorfgemeinschaft Oberodenthal","antrag":"Nein","grafik":"Ja","groesse":"Ganze Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":31,"firma":"Pleiß","antrag":"Ja","grafik":"Nein","groesse":"Ganze Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":32,"firma":"Odenthaler Kunstschmiede","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":33,"firma":"Parkett und Bodenleger Pielot","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":"Mit Andreas Heuser auf eine Seite"},{"id":34,"firma":"Schreinerei Heuser","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":"Mit Pielot auf eine Seite"},{"id":35,"firma":"Hebborner Hof GmbH & Co KG","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":"Auf eine Seite mit Agrarservice Wiemer. Meldet sich bei Thomas wegen Logo"},{"id":36,"firma":"Agrarservice Wiemer","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":"Auf eine Seite mit Hebborner Hof"},{"id":38,"firma":"Tiefbau Nötzel","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":39,"firma":"Quack Steuerberater","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":40,"firma":"RA Muno","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":41,"firma":"going – Ingenieurbüro für Bauwesen","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":42,"firma":"Zahnarztpraxis am Rosengarten","antrag":"Ja","grafik":"Nein","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":43,"firma":"Dachdecker Bosbach Dirk Nährich","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":44,"firma":"H. J. Weyer GmbH","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":45,"firma":"Weichbrodt Metallgestaltung","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":47,"firma":"Reimann und Kollegen","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":48,"firma":"Metallbau Selbach","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":49,"firma":"Autohaus Wilke","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":false,"rechnung":true,"kommentar":"Firma und Anschrift soll noch mit in die Anzeige, bitte abnehmen lassen bei info@autohaus-wilke.com"},{"id":50,"firma":"Schnickmann Elektrotechnik","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":51,"firma":"Weyer Medizintechnik","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":52,"firma":"Dajapac","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":true,"rechnung":true,"kommentar":""},{"id":53,"firma":"Michael Tillmann Rechtsanwalt","antrag":"Ja","grafik":"Ja","groesse":"Ganze Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":54,"firma":"Josef Roth Sanitär- Heizungstechnik GmbH","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":55,"firma":"Bläsius Bedachungen Meisterbetrieb GmbH","antrag":"Ja","grafik":"Ja","groesse":"Drittel Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":56,"firma":"LandVET GbR","antrag":"Ja","grafik":"Ja","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":""},{"id":57,"firma":"Forstbetrieb Urselmann","antrag":"Ja","grafik":"Nein","groesse":"Halbe Seite","bezahlt":false,"rechnung":true,"kommentar":"In der Anzeige bitte Strauch- und Heckenschnitt gegen Baumpflege austauschen"},{"id":58,"firma":"Cafe Restaurant Heuser","antrag":"Nein","grafik":"Nein","groesse":"Ganze Seite","bezahlt":false,"rechnung":true,"kommentar":""}];
+const prices={"Drittel Seite":75,"Halbe Seite":125,"Ganze Seite":200};
+const fmt=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const yes=v=>String(v).toLowerCase()==='ja';
+const by=(arr,fn)=>arr.reduce((m,x)=>{const k=fn(x);m[k]=(m[k]||0)+1;return m},{});
+const sum=(arr,fn)=>arr.reduce((a,x)=>a+fn(x),0);
+ads.forEach(a=>a.amount=prices[a.groesse]||0);
+const total=ads.length, paid=ads.filter(a=>a.bezahlt), unpaid=ads.filter(a=>!a.bezahlt), notInvoiced=ads.filter(a=>!a.rechnung);
+const potential=sum(ads,a=>a.amount), paidRevenue=sum(paid,a=>a.amount), openRevenue=sum(unpaid,a=>a.amount);
+const requestYes=ads.filter(a=>yes(a.antrag)).length, requestNo=total-requestYes, assetYes=ads.filter(a=>yes(a.grafik)).length, assetNo=total-assetYes;
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function metric(label,value,hint){return '<div class="card metric"><div class="label">'+label+'</div><div class="value">'+value+'</div><div class="hint">'+hint+'</div></div>'}
+const sizes=by(ads,a=>a.groesse);
+document.getElementById('kpis').innerHTML=[metric('Anzeigen gesamt',total,Object.entries(sizes).map(([k,v])=>v+' '+k).join(' · ')),metric('Umsatzpotenzial',fmt.format(potential),fmt.format(paidRevenue)+' bezahlt · '+fmt.format(openRevenue)+' offen'),metric('Bezahlt',paid.length+'/'+total,Math.round(paid.length/total*100)+'% der Anzeigen bezahlt'),metric('Unterlagen komplett laut Liste',ads.filter(a=>yes(a.antrag)&&yes(a.grafik)).length+'/'+total,'Antrag und Grafik/Daten jeweils Ja')].join('');
+function bar(label,count,max,cls=''){const pct=max?count/max*100:0;return '<div class="bar-row"><div>'+label+'</div><div class="bar"><div class="fill '+cls+'" style="width:'+pct+'%"></div></div><strong>'+count+'</strong></div>'}
+function moneyBar(label,value,max,cls=''){const pct=max?value/max*100:0;return '<div class="bar-row"><div>'+label+'</div><div class="bar"><div class="fill '+cls+'" style="width:'+pct+'%"></div></div><strong class="money">'+fmt.format(value)+'</strong></div>'}
+document.getElementById('revenueBars').innerHTML=moneyBar('Bezahlt',paidRevenue,potential,'success')+moneyBar('Offen',openRevenue,potential,'warn');
+document.getElementById('potential').textContent=fmt.format(potential);
+document.getElementById('sizeBars').innerHTML=['Ganze Seite','Halbe Seite','Drittel Seite'].map(s=>bar(s,ads.filter(a=>a.groesse===s).length,total)).join('');
+document.getElementById('paymentBars').innerHTML=bar('Bezahlt',paid.length,total,'success')+bar('Offen',unpaid.length,total,'warn')+bar('Rechnung fehlt',notInvoiced.length,total,'warn');
+document.getElementById('requestBars').innerHTML=bar('Vorhanden',requestYes,total,'success')+bar('Fehlt',requestNo,total,'warn');
+document.getElementById('assetBars').innerHTML=bar('Vorhanden',assetYes,total,'success')+bar('Fehlt',assetNo,total,'warn');
+function badge(ok,text){return '<span class="badge '+(ok?'ok':'bad')+'">'+esc(text)+'</span>'}
+function render(){const q=document.getElementById('search').value.toLowerCase();const f=document.getElementById('filter').value;let rows=ads.filter(a=>a.firma.toLowerCase().includes(q));if(f==='open') rows=rows.filter(a=>!a.bezahlt||!yes(a.antrag)||!yes(a.grafik)||!a.rechnung);if(f==='paidOpen') rows=rows.filter(a=>!a.bezahlt);if(f==='invoiceMissing') rows=rows.filter(a=>!a.rechnung);if(f==='requestMissing') rows=rows.filter(a=>!yes(a.antrag));if(f==='assetMissing') rows=rows.filter(a=>!yes(a.grafik));rows.sort((a,b)=>(a.bezahlt-b.bezahlt)||a.groesse.localeCompare(b.groesse,'de')||a.firma.localeCompare(b.firma,'de'));document.getElementById('rows').innerHTML=rows.map(a=>'<tr><td><strong>'+esc(a.firma)+'</strong></td><td>'+esc(a.groesse)+'</td><td>'+badge(a.bezahlt,a.bezahlt?'Ja':'Offen')+'</td><td>'+badge(a.rechnung,a.rechnung?'Ja':'Fehlt')+'</td><td>'+badge(yes(a.antrag),a.antrag||'Nein')+'</td><td>'+badge(yes(a.grafik),a.grafik||'Nein')+'</td><td class="muted small">'+esc(a.kommentar)+'</td></tr>').join('')||'<tr><td colspan="7" class="muted">Keine Treffer</td></tr>'}
+document.getElementById('search').addEventListener('input',render);document.getElementById('filter').addEventListener('change',render);render();
+</script>
+</body>
+</html>
+
+
+
+

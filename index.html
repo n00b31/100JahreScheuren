@@ -79,7 +79,7 @@ html[data-theme="dark"] {
 <p class="footer">Hinweis: â€žAntragâ€œ und â€žGrafik/Datenâ€œ zeigen die Werte aus den Listenspalten. Zahlungsstatus basiert auf â€žBezhaltâ€œ. EinzelbetrÃ¤ge pro Firma werden in dieser Ã¶ffentlichen Ansicht nicht angezeigt.</p>
 </div>
 <script>
-function decodeMojibake(value){if(!/[ÃÂ]/.test(value))return value;try{return decodeURIComponent(escape(value));}catch(e){return value;}}
+function decodeMojibake(value){return String(value||'').replace(/Ã„/g,'Ä').replace(/Ã–/g,'Ö').replace(/Ãœ/g,'Ü').replace(/Ã¤/g,'ä').replace(/Ã¶/g,'ö').replace(/Ã¼/g,'ü').replace(/ÃŸ/g,'ß').replace(/â‚¬/g,'€').replace(/Â·/g,'·').replace(/â€¦/g,'…').replace(/â€œ/g,'“').replace(/â€/g,'”').replace(/â€ž/g,'„').replace(/â€“/g,'–').replace(/â€”/g,'—');}
 function repairEncoding(root){const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(n=>{n.nodeValue=decodeMojibake(n.nodeValue)});document.querySelectorAll('[placeholder], [title], [aria-label], input[value]').forEach(el=>{['placeholder','title','aria-label','value'].forEach(attr=>{if(el.getAttribute(attr))el.setAttribute(attr,decodeMojibake(el.getAttribute(attr)))})});document.title=decodeMojibake(document.title);}const PIN = '112';
 const gate = document.getElementById('pinGate');
 const app = document.getElementById('dashboardApp');
@@ -120,6 +120,7 @@ document.getElementById('search').addEventListener('input',render);document.getE
 </script>
 </body>
 </html>
+
 
 
 

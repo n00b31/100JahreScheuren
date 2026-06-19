@@ -37,6 +37,10 @@ jobs:
             if (-not $match.Success) { throw "Required SharePoint form field '$name' was not found." }
             return [System.Net.WebUtility]::HtmlDecode($match.Groups[1].Value)
           }
+          function Get-Value($item, [string]$key) {
+            if ($item.ContainsKey($key) -and $null -ne $item[$key]) { return $item[$key] }
+            return $null
+          }
 
           $body = @{
             "__EVENTTARGET" = "btnSubmitPassword"
@@ -54,26 +58,28 @@ jobs:
           if ($apiResponse.Content -notmatch '^\s*\{') {
             throw "List API did not return JSON. Response starts with: $($apiResponse.Content.Substring(0, [Math]::Min(120, $apiResponse.Content.Length)))"
           }
-          $response = $apiResponse.Content | ConvertFrom-Json
-          $values = @($response.value)
-          if ($null -eq $response.value -or $values.Count -lt 10) {
+          $response = $apiResponse.Content | ConvertFrom-Json -AsHashtable
+          $values = @($response['value'])
+          if ($null -eq $response['value'] -or $values.Count -lt 10) {
             throw "List API returned $($values.Count) item(s); refusing to update dashboard."
           }
 
           $items = @($values | ForEach-Object {
-            if ($null -eq $_.ID -or [string]::IsNullOrWhiteSpace([string]$_.Title)) {
+            $id = Get-Value $_ "ID"
+            $title = [string](Get-Value $_ "Title")
+            if ($null -eq $id -or [string]::IsNullOrWhiteSpace($title)) {
               throw "Invalid list item encountered; refusing to update dashboard."
             }
             [pscustomobject]@{
-              id = $_.ID
-              firma = ([string]$_.Title).Trim()
-              antrag = if ($_.DonationType) { $_.DonationType } else { "" }
-              grafik = if ($_.EstimatedPrice) { $_.EstimatedPrice } else { "" }
-              groesse = if ($_.Gr_x00f6__x00df_e) { $_.Gr_x00f6__x00df_e } else { "" }
-              bezahlt = [bool]$_.Bezhalt
-              rechnung = [bool]$_.Rechnunggestellt
-              umsatzneutral = [bool]$_.Umsatzneutral
-              kommentar = if ($_.Kommentar) { $_.Kommentar } else { "" }
+              id = $id
+              firma = $title.Trim()
+              antrag = if (Get-Value $_ "DonationType") { Get-Value $_ "DonationType" } else { "" }
+              grafik = if (Get-Value $_ "EstimatedPrice") { Get-Value $_ "EstimatedPrice" } else { "" }
+              groesse = if (Get-Value $_ "Gr_x00f6__x00df_e") { Get-Value $_ "Gr_x00f6__x00df_e" } else { "" }
+              bezahlt = [bool](Get-Value $_ "Bezhalt")
+              rechnung = [bool](Get-Value $_ "Rechnunggestellt")
+              umsatzneutral = [bool](Get-Value $_ "Umsatzneutral")
+              kommentar = if (Get-Value $_ "Kommentar") { Get-Value $_ "Kommentar" } else { "" }
             }
           })
 

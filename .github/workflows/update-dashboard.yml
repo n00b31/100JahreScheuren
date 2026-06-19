@@ -85,7 +85,8 @@ jobs:
 
           $dataJson = (ConvertTo-Json -InputObject @($items) -Depth 8 -Compress) -replace "</", "<\/"
           if ($dataJson -notmatch '^\[') { throw "Serialized dashboard data is not a JSON array; refusing to update dashboard." }
-          $generatedAt = (Get-Date).ToString("dd.MM.yyyy HH:mm")
+          $tz = [TimeZoneInfo]::FindSystemTimeZoneById("W. Europe Standard Time")
+          $generatedAt = [TimeZoneInfo]::ConvertTimeFromUtc((Get-Date).ToUniversalTime(), $tz).ToString("dd.MM.yyyy HH:mm")
 
           $templatePath = "index.html"
           $html = Get-Content -LiteralPath $templatePath -Raw
@@ -106,6 +107,7 @@ jobs:
             git commit -m "Update dashboard data"
             git push
           }
+
 
 
 
